@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Papo Jovem!</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="css/normalize.css" rel="stylesheet">
+	<link href="css/index.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
+</head>
+<body>
+	<div class="header">
+		<!--INÍCIO da Barra Inicial-->
+		<div class="barra1">
+			<div class="linhax">
+				<div class="colunax col1x">
+					<nav>
+						<ul class="barra inline sem-marcador">
+							<li><a class="nav linkAtivo" href="index.html">Início</a></li>
+							<li><a class="nav" href="sobre.html">Sobre</a></li>
+							<li><a class="nav" href="contato.html">Contato</a></li>
+							<li><a class="nav" href="administrador/login.html">Área Administrativa</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--FIM da Barra Inicial-->
+		<!--INÍCIO do Cabeçalho-->
+		<div class="cabecalho">
+			<div class="linhax">
+				<header>
+					<div class="colunax col1x">
+						<h1 class="logo">Papo Jovem!</h1>
+						<h3 class="logo">Sexualidade, DST/AIDS e adolescência:</h3>
+						<h3><b><u>vamos conversar?!</u></b></h3>
+						<div align="right"><img src="https://contador.s12.com.br/img-7Z5bd3Z1zZWzcZ6A-6.gif" border="0" alt="contador de visitas"><script type="text/javascript" src="https://contador.s12.com.br/ad.js?id=7Z5bd3Z1zZWzcZ6A"></script></div>
+					</div>
+				</header>
+			</div>
+		</div>
+		<!--FIM do Cabeçalho-->
+		<!--INÍCIO do Menu-->
+		<div class="menu1">
+			<div class="linhax">
+				<div class="colunax col1x">
+					<nav>
+						<ul class="menu inline sem-marcador">
+							<li><a class="nav" href="categorias/noticias.html">Notícias</a></li>
+							<li><a class="nav" href="categorias/videos.html">Vídeos</a></li>
+							<li><a class="nav" href="categorias/videoaula.html">Vídeo-Aula</a></li>
+							<li><a class="nav" href="categorias/artigos.html">Livros e Artigos</a></li>
+							<li><a class="nav" href="categorias/pergunta.html">Perguntas</a></li>
+							<li><a class="nav" href="categorias/enquete.html">Enquete</a></li>
+							<li><a class="nav" href="categorias/cxduvidas.html">Caixa de Dúvidas</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--FIM do Menu-->
+	</div>
+
+	<article><center>
+	<style type="text/css">
+		table {
+			border: 1px solid grey;
+			display:inline-block;
+			margin: 10px;
+			background: #f4f5f2;
+			width: 380px;
+			height: 500px;
+			text-align: center;
+			vertical-align: top;
+		}
+		table h2, table h3 { font-style: italic; color: black; }
+		table h4, table h5 { color: #545454; }
+		article a:hover table { background: #1d1d20; border: 5px solid grey; }
+	</style>
+	<div id="lista"></div>
+	<br><br></center>
+	</article>
+	<br><br>
+
+	<div class="footer">
+		<div class="linha">
+			<footer>
+				<div class="coluna col12">
+					<span>© 2018 PAPO JOVEM! <br>
+					Desenvolvido por: Laboratório de Multimídia Interativa - LAMIF, IFSEMG Campus Rio Pomba</span>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="js/dados.js"></script>
+	<script>
+
+		function textoVisualizacoes(n) {
+			if (!n) return 'Nenhuma visualização';
+			return n + (n == 1 ? ' visualização' : ' visualizações');
+		}
+		document.getElementById('lista').innerHTML = PJ.ler('noticias').sort(PJ.porDataDesc).map(function (n) {
+			var tag = n.titulo.length > 90 ? 'h3' : 'h2';
+			return '<a href="categorias/noticia.html?id=' + n.id + '"><table><tr><td>' +
+				'<img src="' + PJ.esc(PJ.urlImagem(n.imagem, '')) + '" width="370" height="230"><br>' +
+				'<' + tag + '><b>' + PJ.esc(n.titulo) + '</b></' + tag + '>' +
+				'<h4><img src="images/clock.png" width="20" height="20"> <b>Postada em: ' + PJ.dataBR(n.data) + '</b></h4>' +
+				'<h5><img src="images/view.png" width="20" height="20"> <b><u>' + textoVisualizacoes(n.visualizacoes) + '</u></b></h5>' +
+				'</td></tr></table></a>';
+		}).join('');
+	</script>
+</body>
+</html>

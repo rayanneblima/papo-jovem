@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Administração | Papo Jovem!</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../css/index.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
+	<style type="text/css">
+		.lista table { display: inline-block; margin: 10px; vertical-align: top; }
+		.demo { background: #fff6d6; border-bottom: 1px solid #e5d48a; padding: 8px 10px; text-align: center; font-size: 14px; }
+		.demo button { margin-left: 8px; cursor: pointer; }
+	</style>
+</head>
+<body>
+	<div class="header">
+		<!--INÍCIO da Barra Inicial-->
+		<div class="barra1">
+			<div class="linhax">
+				<div class="colunax col1x">
+					<nav>
+						<ul class="barra inline sem-marcador">
+							<li><a class="nav linkAtivo" href="../index.html">Início</a></li>
+							<li><a class="nav" href="login.html">Sair</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--FIM da Barra Inicial-->
+		<!--INÍCIO do Cabeçalho-->
+		<div class="cabecalho">
+			<div class="linhax">
+			<header>
+					<div class="colunax col1x">
+						<h1 class="logo">Papo Jovem! - Administração</h1>
+						<h3 class="logo">Aqui você pode excluir, cadastrar <br> ou editar uma notícia.</h3>
+					</div>
+				</header>
+			</div>
+		</div>
+		<!--FIM do Cabeçalho-->
+	</div>
+
+	<div class="demo">
+		Versão de demonstração: o que você cadastrar fica salvo só neste navegador.
+		<button type="button" id="restaurar">Restaurar dados originais</button>
+	</div>
+	<center>
+		<br><br>
+		<!--Open The PopUp -->
+		<button id="myBtn"><img width="70px" height="70px" src="../images/add.png" alt="Cadastrar"/></button>
+		<!--The PopUp-->
+		<div id="myModal" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="close">&times;</span>
+					<h2>Escolha o que deseja cadastrar: </h2>
+				</div>
+				<div class="modal-body">
+					<br>
+					<form id="escolha">
+						<input type="radio" id="cat-noticia" name="categoria" value="cadastro_noticias.html">
+							<label for="cat-noticia">Notícia</label><br>
+						<input type="radio" id="cat-artigos" name="categoria" value="cadastro_artigos.html">
+							<label for="cat-artigos">Artigos e E-books</label><br>
+						<input type="radio" id="cat-enquetes" name="categoria" value="cadastro_enquete.html">
+							<label for="cat-enquetes">Enquetes</label><br>
+						<input type="radio" id="cat-videos" name="categoria" value="cadastro_videos.html">
+							<label for="cat-videos">Vídeos</label><br>
+						<input type="radio" id="cat-videoaula" name="categoria" value="cadastro_videoaula.html">
+							<label for="cat-videoaula">Vídeo-Aula</label><br><br>
+						<button type="submit">OK</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<a href="adm_noticias.html"><img width="70px" height="70px" src="../images/newspaper.png" alt="Notícias"/></a>
+		<a href="adm_videos.html"><img width="70px" height="70px" src="../images/video-player.png" alt="Vídeos"/></a>
+		<a href="adm_artigos.html"><img width="70px" height="70px" src="../images/folder.png" alt="Artigos"/></a>
+		<a href="adm_enquetes.html"><img width="70px" height="70px" src="../images/questions.png" alt="Enquetes"/></a>
+		<br><br>
+		<style type="text/css">
+			table h3 { color: red; }
+		</style>
+		<table border="1" class="tabela" id="lista"></table>
+		<br><br>
+	</center>
+	<br><br>
+
+	<div class="footer">
+		<div class="linha">
+			<footer>
+				<div class="coluna col12">
+					<span>© 2018 PAPO JOVEM! <br>
+					Desenvolvido por: Laboratório de Multimídia Interativa - LAMIF, IFSEMG Campus Rio Pomba</span>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../js/dados.js"></script>
+	<script src="../js/admin.js"></script>
+	<script src="../js/popup.js"></script>
+	<script>
+
+		$('#escolha').on('submit', function (e) {
+			e.preventDefault();
+			var destino = $(this).find('input[name=categoria]:checked').val();
+			if (destino) location.href = destino;
+		});
+		$('#restaurar').on('click', function () {
+			if (!confirm('Apagar tudo o que foi cadastrado neste navegador e voltar aos dados originais?')) return;
+			PJ.restaurar();
+			alert('Dados originais restaurados.');
+			desenhar();
+		});
+		function desenhar() {
+			$('#lista').html(
+				'<tr><td><h3><b><u>PERGUNTAS</u></b></h3></td><td><h3><b><u>RESPOSTAS</u></b></h3></td></tr>' +
+				PJ.ler('perguntas').map(function (p) {
+					return '<tr><td>' + p.id + ') ' + PJ.esc(p.perg) + '</td><td>' + (p.resp ? PJ.paragrafos(p.resp) : '<i>Sem resposta</i>') + '</td></tr>' +
+						'<tr><td colspan="2">' + PJ.icones('responderpergunta.html?id=' + p.id, 'perguntas:' + p.id) + '</td></tr>';
+				}).join(''));
+		}
+		PJ.ligarExcluir('#lista', desenhar);
+		desenhar();
+	</script>
+</body>
+</html>

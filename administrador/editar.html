@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Editar Notícia | Papo Jovem!</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/util.css">
+	<link rel="stylesheet" type="text/css" href="../css/main.css">
+	<style type="text/css">
+		textarea.input100 { height: 160px; padding-top: 18px; padding-bottom: 18px; }
+		.aviso { width: 100%; text-align: center; color: #666; font-size: 13px; margin-top: 12px; }
+	</style>
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-t-50 p-b-90">
+
+				<form id="form" class="login100-form validate-form flex-sb flex-w">
+					<span class="login100-form-title p-b-51">Editar notícia:</span>
+					<div class="wrap-input100 validate-input m-b-16" data-validate="Título obrigatório.">
+						<input class="input100" type="text" name="titulo" placeholder="título">
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 m-b-16">
+						<center><img id="imagem-atual" width="250" height="200"></center><br>
+						<input type="file" name="nv_imagem" accept="image/*">
+					</div>
+					<div class="wrap-input100 validate-input m-b-16" data-validate="Conteúdo obrigatório.">
+						<textarea class="input100" name="noticia" placeholder="conteúdo"></textarea>
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 validate-input m-b-16" data-validate="Link obrigatório.">
+						<input class="input100" type="text" name="link" placeholder="link">
+						<span class="focus-input100"></span>
+					</div>
+					<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit" onclick="return confirm('Deseja atualizar o registro?');">editar</button>
+					</div>
+				</form>
+				<a href="adm_noticias.html" style="width: 100%"><div class="container-login100-form-btn m-t-17">
+					<span class="login100-form-btn"><font color="white">Voltar</font></span>
+				</div></a>
+			</div>
+		</div>
+	</div>
+
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/dados.js"></script>
+	<script src="../js/admin.js"></script>
+	<script>
+
+		var n = PJ.buscar('noticias', PJ.param('id'));
+		if (!n) { alert('Notícia não encontrada.'); location.replace('adm_noticias.html'); }
+		var f = document.getElementById('form');
+		f.titulo.value = n.titulo; f.noticia.value = n.noticia; f.link.value = n.link;
+		document.getElementById('imagem-atual').src = PJ.urlImagem(n.imagem, '../');
+		PJ.aoEnviar('#form', function (dados) {
+			var nova = dados.get('nv_imagem');
+			return (nova && nova.size ? PJ.lerImagem(nova) : Promise.resolve(n.imagem)).then(function (imagem) {
+				var ok = PJ.atualizar('noticias', n.id, {
+					titulo: dados.get('titulo').trim(), noticia: dados.get('noticia').trim(), link: dados.get('link').trim(), imagem: imagem
+				});
+				if (!ok) return;
+				alert('Atualizada com sucesso!');
+				location.replace('adm_noticias.html');
+			});
+		});
+	</script>
+</body>
+</html>

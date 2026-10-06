@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Cadastrar Materiais | Papo Jovem!</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
+	<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/util.css">
+	<link rel="stylesheet" type="text/css" href="../css/main.css">
+	<style type="text/css">
+		textarea.input100 { height: 160px; padding-top: 18px; padding-bottom: 18px; }
+		.aviso { width: 100%; text-align: center; color: #666; font-size: 13px; margin-top: 12px; }
+	</style>
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-t-50 p-b-90">
+
+				<form id="form" class="login100-form validate-form flex-sb flex-w">
+					<span class="login100-form-title p-b-51">Cadastrar materiais:</span>
+					<div class="wrap-input100 validate-input m-b-16" data-validate="Título obrigatório.">
+						<input class="input100" type="text" name="titulo" placeholder="título">
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 m-b-16">
+						<input type="file" name="arquivo" required>
+					</div>
+					<p class="aviso">Até 2 MB: o arquivo fica guardado no próprio navegador.</p>
+					<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit" onclick="return confirm('Deseja cadastrar o arquivo?');">cadastrar</button>
+					</div>
+				</form>
+				<a href="adm_artigos.html" style="width: 100%"><div class="container-login100-form-btn m-t-17">
+					<span class="login100-form-btn"><font color="white">Voltar</font></span>
+				</div></a>
+			</div>
+		</div>
+	</div>
+
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/dados.js"></script>
+	<script src="../js/admin.js"></script>
+	<script>
+
+		PJ.aoEnviar('#form', function (dados) {
+			var arquivo = dados.get('arquivo');
+			if (arquivo.size > 2 * 1024 * 1024) { alert('Arquivo muito grande para guardar no navegador (máximo 2 MB).'); return; }
+			return PJ.lerArquivo(arquivo).then(function (conteudo) {
+				if (!PJ.inserir('artigos', { titulo: dados.get('titulo').trim(), arquivo: conteudo, nomeArquivo: arquivo.name })) return;
+				alert('Cadastrado com sucesso!');
+				location.replace('adm_artigos.html');
+			});
+		});
+	</script>
+</body>
+</html>

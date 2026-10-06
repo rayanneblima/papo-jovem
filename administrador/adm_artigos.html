@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Administrar Arquivos | Papo Jovem!</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../css/index.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="../images/icons/favicon.png"/>
+	<style type="text/css">
+		.lista table { display: inline-block; margin: 10px; vertical-align: top; }
+		.demo { background: #fff6d6; border-bottom: 1px solid #e5d48a; padding: 8px 10px; text-align: center; font-size: 14px; }
+		.demo button { margin-left: 8px; cursor: pointer; }
+	</style>
+</head>
+<body>
+	<div class="header">
+		<!--INÍCIO da Barra Inicial-->
+		<div class="barra1">
+			<div class="linhax">
+				<div class="colunax col1x">
+					<nav>
+						<ul class="barra inline sem-marcador">
+							<li><a class="nav" href="index.html">Voltar</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!--FIM da Barra Inicial-->
+		<!--INÍCIO do Cabeçalho-->
+		<div class="cabecalho">
+			<div class="linhax">
+			<header>
+					<div class="colunax col1x">
+						<h1 class="logo">Papo Jovem! - Administração</h1>
+						<h3 class="logo">Aqui você pode excluir, cadastrar <br> ou editar uma notícia.</h3>
+					</div>
+				</header>
+			</div>
+		</div>
+		<!--FIM do Cabeçalho-->
+	</div>
+
+	<center class="lista">
+		<h1>ARQUIVOS: </h1>
+		<a href="cadastro_artigos.html"><img width="50px" height="50px" src="../images/add.png" alt="Cadastrar arquivo"/></a><br>
+		<div id="lista"></div>
+		<br><br>
+	</center>
+	<br><br>
+
+	<div class="footer">
+		<div class="linha">
+			<footer>
+				<div class="coluna col12">
+					<span>© 2018 PAPO JOVEM! <br>
+					Desenvolvido por: Laboratório de Multimídia Interativa - LAMIF, IFSEMG Campus Rio Pomba</span>
+				</div>
+			</footer>
+		</div>
+	</div>
+	<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="../js/dados.js"></script>
+	<script src="../js/admin.js"></script>
+	<script>
+
+		function desenhar() {
+			$('#lista').html(PJ.ler('artigos').map(function (a) {
+				return '<table border="1">' +
+					'<tr><td><h1><b><u>' + PJ.esc(a.titulo) + '</u></b></h1></td></tr>' +
+					'<tr><td><b>' + PJ.linkArquivo(a, '../') + '</b></td></tr>' +
+					'<tr><td>' + PJ.icones(null, 'artigos:' + a.id) + '</td></tr>' +
+					'</table>';
+			}).join('') || '<h2>Nenhum arquivo cadastrado.</h2>');
+		}
+		PJ.ligarExcluir('#lista', desenhar);
+		desenhar();
+	</script>
+</body>
+</html>

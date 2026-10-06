@@ -52,7 +52,7 @@
 							<li><a class="nav" href="artigos.php">Livros e Artigos</a></li>
 							<li><a class="nav linkAtivo" href="pergunta.php">Perguntas</a></li>
 							<li><a class="nav" href="enquete.php">Enquete</a></li>
-							<li><a class="nav" href="categorias/cxduvidas.php">Caixa de Dúvidas</a></li>
+							<li><a class="nav" href="cxduvidas.php">Caixa de Dúvidas</a></li>
 						</ul>
 					</nav>
 				</div>
